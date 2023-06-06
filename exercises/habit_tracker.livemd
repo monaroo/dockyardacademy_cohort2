@@ -179,9 +179,7 @@ Enter your answer below.
 early = fn points -> points + points * 0.6 end
 late = fn points -> points * 0.5 end
 
-# early.(small) * 3
-# medium * 2
-# late.(large) * 2
+early.(small) * 3 + medium * 2 + late.(large) * 2
 ```
 
 ## Bonus: Add Your Own Feature
