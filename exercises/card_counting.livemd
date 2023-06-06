@@ -195,15 +195,18 @@ Enter your solution below.
 ```elixir
 init = 0
 
-[Enum.random(1..13), Enum.random(1..13), Enum.random(1..13)]
-|> Enum.map(fn card ->
-  cond do
-    card in 1..6 -> low
-    card in 7..9 -> normal
-    true -> high
-  end
-end)
-|> Enum.sum()
+cards =
+  [Enum.random(1..13), Enum.random(1..13), Enum.random(1..13)]
+  |> Enum.map(fn card ->
+    cond do
+      card in 1..6 -> low
+      card in 7..9 -> normal
+      true -> high
+    end
+  end)
+  |> Enum.sum()
+
+init + cards
 ```
 
 ## Commit Your Progress

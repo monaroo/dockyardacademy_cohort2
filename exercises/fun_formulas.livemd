@@ -69,7 +69,7 @@ Enter your solution below.
 ```elixir
 complete = 12
 total = 42
-percentage = complete / total * 100
+percent = complete / total * 100
 ```
 
 ## Rocket Ship
