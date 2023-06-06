@@ -56,7 +56,11 @@ blank3 = "code"
 Enter your solution below.
 
 ```elixir
+first = "wizard"
+second = "data"
+third = "magic"
 
+"A programmer is a " <> first <> " that turns " <> second <> " into " <> third <> "."
 ```
 
 ## String Interpolation Madlib
@@ -81,7 +85,11 @@ blank3 = "foobar"
 Enter your solution below.
 
 ```elixir
+first = "blue"
+second = "red"
+third = "purple"
 
+"#{first} and #{second} combined makes #{third}."
 ```
 
 ## Commit Your Progress
