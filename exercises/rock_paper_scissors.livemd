@@ -142,6 +142,49 @@ case choices do
 end
 ```
 
+```elixir
+player1_choice = Enum.random([:rock, :paper, :scissors])
+player2_choice = Enum.random([:rock, :paper, :scissors])
+
+choices = {player1_choice, player2_choice}
+
+case choices do
+  {same, same} -> "Draw!"
+  {:rock, :scissors} -> "Player 1 wins!"
+  {:paper, :rock} -> "Player 1 wins!"
+  {:scissors, :paper} -> "Player 1 wins!"
+  _ -> "Player 2 wins!"
+end
+```
+
+```elixir
+player1_choice = Enum.random([:rock, :paper, :scissors])
+player2_choice = Enum.random([:rock, :paper, :scissors])
+
+case player1_choice do
+  :rock ->
+    case player2_choice do
+      :rock -> "Draw!"
+      :paper -> "Player 2 wins!"
+      :scissors -> "Player 1 wins!"
+    end
+
+  :paper ->
+    case player2_choice do
+      :rock -> "Player 1 wins!"
+      :paper -> "Draw!"
+      :scissors -> "Player 2 wins!"
+    end
+
+  :scissors ->
+    case player2_choice do
+      :rock -> "Player 2 wins!"
+      :paper -> "Player 1 wins!"
+      :scissors -> "Draw!"
+    end
+end
+```
+
 ## Commit Your Progress
 
 DockYard Academy now recommends you use the latest [Release](https://github.com/DockYard-Academy/curriculum/releases) rather than forking or cloning our repository.

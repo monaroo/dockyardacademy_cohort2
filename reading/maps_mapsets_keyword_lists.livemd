@@ -115,7 +115,7 @@ While creating the map took some time, reading a value should be extremely fast.
 Evaluate the cell below and notice how quickly we can access a value. Try changing `key` to any integer between `0` and `999_999`. Notice there is no significant affect on the speed of accessing a value.
 
 ```elixir
-key = 500_000
+key = 500
 
 {micro_seconds, _result} = :timer.tc(fn -> Map.get(large_map, key) end)
 
@@ -131,7 +131,7 @@ large_list = Enum.to_list(1..1_000_000)
 Try changing `index` to any integer between `0` and `999_999` and notice that the larger the index value, the slower it takes to access an element.
 
 ```elixir
-index = 500_000
+index = 5
 
 {micro_seconds, _result} = :timer.tc(fn -> Enum.at(large_list, index) end)
 
@@ -218,7 +218,8 @@ Create a MapSet with the elements `1, 2, 3`. Use [MapSet.member?/2](https://hexd
 the element `2`. Your answer should return `true`.
 
 ```elixir
-
+MapSet.new([1, 2, 3])
+|> MapSet.member?(2)
 ```
 
 ## Commit Your Progress
