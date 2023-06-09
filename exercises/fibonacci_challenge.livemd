@@ -57,9 +57,15 @@ defmodule Fibonacci do
 
     iex> 
   """
+  def sequence(0), do: 0
+  def sequence(1), do: 1
+
   def sequence(length) do
+    sequence(length - 1) + sequence(length - 2)
   end
 end
+
+Fibonacci.sequence(3)
 ```
 
 ## Competition: Benchmark
