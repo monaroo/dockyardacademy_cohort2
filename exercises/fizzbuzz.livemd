@@ -92,6 +92,7 @@ defmodule FizzBuzz do
     iex> FizzBuzz.run(10..15)
     ["buzz", 11, "fizz", 13, 14, "fizzbuzz"]
   """
+
   def run(range) do
     Enum.map(range, fn int ->
       cond do
@@ -104,7 +105,7 @@ defmodule FizzBuzz do
   end
 end
 
-FizzBuzz.run(1..15)
+FizzBuzz.different_run(1..15)
 ```
 
 ## Commit Your Progress
