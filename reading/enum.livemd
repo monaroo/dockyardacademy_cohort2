@@ -384,7 +384,7 @@ Enum.map(1..10, fn integer -> "#{integer}" end)
 Enter your solution below.
 
 ```elixir
-
+Enum.map(1..10, fn n -> Integer.to_string(n) end)
 ```
 
 ## Enum.reduce/2 And Enum.reduce/3
@@ -506,7 +506,13 @@ end)
 Enter your solution below.
 
 ```elixir
-
+Enum.reduce(1..10, 0, fn n, acc ->
+  if rem(n, 2) == 0 do
+    n + acc
+  else
+    acc
+  end
+end)
 ```
 
 ## Enum.filter
@@ -544,7 +550,7 @@ odd_numbers = Enum.filter(1..10, fn integer -> rem(integer, 2) != 0 end)
 Enter your solution below.
 
 ```elixir
-
+Enum.filter(1..10, fn n -> rem(n, 2) == 0 end)
 ```
 
 ## Enum.all?/2
@@ -595,6 +601,7 @@ Use [Enum.all/2](https://hexdocs.pm/elixir/Enum.html#all/2) to determine if all 
 
 ```elixir
 colors = [:green, :green, :red]
+Enum.all?(colors, fn color -> color == :green end)
 ```
 
 ## Enum.any?/2
@@ -634,7 +641,9 @@ Enum.any?(1..10_000_000, fn integer -> is_bitstring(integer) end)
 Use [Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any?/2) to determine if any of the animals in the `animals` list are `:dogs`. You may change the `animals` list to experiment with [Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any?/2).
 
 ```elixir
-animals = [:cats, :dogs, :bears, :lions, :penguins]
+animals =
+  [:cats, :dogs, :bears, :lions, :penguins]
+  |> Enum.any?(fn animal -> animal == :dogs end)
 ```
 
 ## Enum.count/1
@@ -661,7 +670,9 @@ Enum.count([{}, "hello", %{}, [[[]]]])
 In the Elixir cell below, count the number of elements in the `collection`. It should return `5`.
 
 ```elixir
-collection = [1, 2, 3, 4, 5]
+collection =
+  [1, 2, 3, 4, 5]
+  |> Enum.count()
 ```
 
 ## Enum.find/3
@@ -690,6 +701,7 @@ Use [Enum.find/2](https://hexdocs.pm/elixir/Enum.html#find/2) to find the first 
 
 ```elixir
 [1, "2", "three", 4, "five", 6]
+|> Enum.find(fn item -> is_integer(item) && rem(item, 2) == 0 end)
 ```
 
 ## Enum.random/1
@@ -716,7 +728,7 @@ Enum.map(1..10, fn _ -> Enum.random(0..9) end)
 Enter your solution below.
 
 ```elixir
-
+Enum.map(0..9, fn _n -> Enum.random(0..9) end)
 ```
 
 ## Capture Operator And Module Functions

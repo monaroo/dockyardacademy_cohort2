@@ -81,7 +81,10 @@ defmodule Measurements do
     iex> Measurements.increments([10, 20, 10, 40])
     [10, -10, 30]
   """
-  def increments(measurements) do
+  def increments(measurements = [first, second | t]) do
+    Enum.reduce(measurements, [], fn acc, _n ->
+      [acc] ++ [second - first]
+    end)
   end
 
   @doc """
@@ -132,6 +135,8 @@ defmodule Measurements do
   def average(measurements) do
   end
 end
+
+Measurements.increments([100, 150, 120, 130])
 ```
 
 ## Commit Your Progress
