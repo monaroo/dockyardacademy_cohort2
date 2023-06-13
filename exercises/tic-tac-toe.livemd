@@ -161,7 +161,10 @@ defmodule TicTacToe do
       iex> TicTacToe.at(board, {0, 2})
       "A"
   """
-  def at(board, coordinate) do
+  def at(board, {a, b} = _coordinate) do
+    Enum.reverse(board)
+    |> Enum.at(b)
+    |> Enum.at(a)
   end
 
   @doc """
@@ -179,7 +182,83 @@ defmodule TicTacToe do
       iex> TicTacToe.fill(board, {1, 1}, "O")
       [[nil, nil, nil], [nil, "O", nil], [nil, nil, nil]]
   """
-  def fill(board, coordinate, symbol) do
+  def fill(board, {a, b} = _coordinate, symbol) do
+    Enum.reverse(board)
+    |> List.update_at(b, fn list -> List.replace_at(list, a, symbol) end)
+    |> Enum.reverse()
+  end
+
+  @doc """
+  Determine if a player has won the game.
+
+  ## Examples
+
+    Row Wins:
+
+    iex> TicTacToe.winner([["X", "X", "X"], [nil, nil, nil], [nil, nil, nil]])
+    "X"
+    iex> TicTacToe.winner([[nil, nil, nil], ["X", "X", "X"], [nil, nil, nil]])
+    "X"
+    iex> TicTacToe.winner([[nil, nil, nil], [nil, nil, nil], ["X", "X", "X"]])
+    "X"
+
+    Column Wins:
+
+    iex> TicTacToe.winner([["X", nil, nil], ["X", nil, nil], ["X", nil, nil]])
+    "X"
+    iex> TicTacToe.winner([[nil, "X", nil], [nil, "X", nil], [nil, "X", nil]])
+    "X"
+    iex> TicTacToe.winner([[nil, nil, "X"], [nil, nil, "X"], [nil, nil, "X"]])
+    "X"
+
+    Diagonal Wins
+
+    iex> TicTacToe.winner([["X", nil, nil], [nil, "X", nil], [nil, nil, "X"]])
+    "X"
+    iex> TicTacToe.winner([[nil, nil, "X"], [nil, "X", nil], ["X", nil, nil]])
+    "X"
+
+    No Winner
+
+    iex> TicTacToe.winner([[nil, nil, nil], [nil, nil, nil], [nil, nil, nil]])
+    nil
+    iex> TicTacToe.winner([[nil, "X", nil], [nil, "X", nil], [nil, nil, nil]])
+    nil
+
+  """
+  def row(board) do
+    Enum.reduce(board, false, fn each, acc ->
+      case each do
+        [same, same, same] when same != nil -> same
+        _ -> acc
+      end
+    end)
+  end
+
+  def column(board) do
+    case board do
+      [[_, _, a], [_, _, a], [_, _, a]] when a != nil -> a
+      [[a, _, _], [a, _, _], [a, _, _]] when a != nil -> a
+      [[_, a, _], [_, a, _], [_, a, _]] when a != nil -> a
+      _ -> false
+    end
+  end
+
+  def diag(board) do
+    case board do
+      [[_, _, a], [_, a, _], [a, _, _]] when a != nil -> a
+      [[a, _, _], [_, a, _], [_, _, a]] when a != nil -> a
+      _ -> false
+    end
+  end
+
+  def winner(board) do
+    cond do
+      row(board) -> row(board)
+      column(board) -> column(board)
+      diag(board) -> diag(board)
+      true -> nil
+    end
   end
 end
 ```
