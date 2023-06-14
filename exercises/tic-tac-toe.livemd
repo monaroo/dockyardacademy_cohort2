@@ -229,7 +229,7 @@ defmodule TicTacToe do
   def row(board) do
     Enum.reduce(board, false, fn each, acc ->
       case each do
-        [same, same, same] when same != nil -> same
+        [a, a, a] when a != nil -> a
         _ -> acc
       end
     end)
