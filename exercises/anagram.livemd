@@ -83,6 +83,15 @@ defmodule Anagram do
     true
   """
   def anagram?(word, possible_anagram) do
+    w =
+      String.split(word, "", trim: true)
+      |> MapSet.new()
+
+    p_a =
+      String.split(possible_anagram, "", trim: true)
+      |> MapSet.new()
+
+    w == p_a
   end
 
   @doc """
@@ -100,6 +109,7 @@ defmodule Anagram do
     []
   """
   def filter_anagrams(word_list, anagram) do
+    for word <- word_list, anagram?(anagram, word) == true, do: word
   end
 end
 ```

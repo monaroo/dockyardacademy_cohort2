@@ -126,11 +126,25 @@ end
 ```elixir
 defmodule Products do
   def all_items do
+    for n <- ["computer", "phone", "tablet"], p <- 1..100 do
+      %{name: n, price: p}
+    end
   end
 
   def search(items, filters) do
+    for i <- items,
+        _f <- filters,
+        Keyword.fetch!(filters, :name) != nil,
+        i.price >= Keyword.fetch!(filters, :min),
+        i.price <= Keyword.fetch!(filters, :max) do
+      i
+    end
   end
 end
+
+items =
+  Products.all_items()
+  |> Products.search(min: 10, max: 10, name: "phone")
 ```
 
 ## Commit Your Progress
