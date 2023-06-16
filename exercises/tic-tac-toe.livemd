@@ -189,50 +189,59 @@ defmodule TicTacToe do
   end
 
   @doc """
-  Determine if a player has won the game.
+Determine if a player has won the game.
 
-  ## Examples
+## Examples
 
-    Row Wins:
+  Row Wins:
 
-    iex> TicTacToe.winner([["X", "X", "X"], [nil, nil, nil], [nil, nil, nil]])
-    "X"
-    iex> TicTacToe.winner([[nil, nil, nil], ["X", "X", "X"], [nil, nil, nil]])
-    "X"
-    iex> TicTacToe.winner([[nil, nil, nil], [nil, nil, nil], ["X", "X", "X"]])
-    "X"
+  iex> TicTacToe.winner([["X", "X", "X"], [nil, nil, nil], [nil, nil, nil]])
+  "X"
+  iex> TicTacToe.winner([[nil, nil, nil], ["X", "X", "X"], [nil, nil, nil]])
+  "X"
+  iex> TicTacToe.winner([[nil, nil, nil], [nil, nil, nil], ["X", "X", "X"]])
+  "X"
 
-    Column Wins:
+  Column Wins:
 
-    iex> TicTacToe.winner([["X", nil, nil], ["X", nil, nil], ["X", nil, nil]])
-    "X"
-    iex> TicTacToe.winner([[nil, "X", nil], [nil, "X", nil], [nil, "X", nil]])
-    "X"
-    iex> TicTacToe.winner([[nil, nil, "X"], [nil, nil, "X"], [nil, nil, "X"]])
-    "X"
+  iex> TicTacToe.winner([["X", nil, nil], ["X", nil, nil], ["X", nil, nil]])
+  "X"
+  iex> TicTacToe.winner([[nil, "X", nil], [nil, "X", nil], [nil, "X", nil]])
+  "X"
+  iex> TicTacToe.winner([[nil, nil, "X"], [nil, nil, "X"], [nil, nil, "X"]])
+  "X"
 
-    Diagonal Wins
+  Diagonal Wins
 
-    iex> TicTacToe.winner([["X", nil, nil], [nil, "X", nil], [nil, nil, "X"]])
-    "X"
-    iex> TicTacToe.winner([[nil, nil, "X"], [nil, "X", nil], ["X", nil, nil]])
-    "X"
+  iex> TicTacToe.winner([["X", nil, nil], [nil, "X", nil], [nil, nil, "X"]])
+  "X"
+  iex> TicTacToe.winner([[nil, nil, "X"], [nil, "X", nil], ["X", nil, nil]])
+  "X"
 
-    No Winner
+  No Winner
 
-    iex> TicTacToe.winner([[nil, nil, nil], [nil, nil, nil], [nil, nil, nil]])
-    nil
-    iex> TicTacToe.winner([[nil, "X", nil], [nil, "X", nil], [nil, nil, nil]])
-    nil
+  iex> TicTacToe.winner([[nil, nil, nil], [nil, nil, nil], [nil, nil, nil]])
+  nil
+  iex> TicTacToe.winner([[nil, "X", nil], [nil, "X", nil], [nil, nil, nil]])
+  nil
 
-  """
+"""
+ defp all_same?(list) do
+    Enum.uniq(list)|> Enum.count() == 1
+ end
+
+ defp rotate(board) do
+  #  [1, 2, 3]    [1, 4, 7]
+  #  [4, 5, 6] -> [2, 5, 8]
+  #  [7, 8, 9]    [3, 6, 9]
+
+  Enum.with_index(board)
+  |> 
+ end
+
   def row(board) do
-    Enum.reduce(board, false, fn each, acc ->
-      case each do
-        [a, a, a] when a != nil -> a
-        _ -> acc
-      end
-    end)
+    Enum.find(board, fn row -> all_same?(row) && nil not in row end)
+    |> Enum.at(0)
   end
 
   def column(board) do
@@ -261,6 +270,31 @@ defmodule TicTacToe do
     end
   end
 end
+
+
+```
+
+```elixir
+# DIAG
+board =
+  [
+    ["A", "B", "C"],
+    ["D", "E", "F"],
+    ["G", "H", "I"]
+  ]
+  |> Enum.with_index()
+  |> Enum.map(fn {each, index} -> Enum.at(each, index) end)
+```
+
+```elixir
+board = [
+  ["A", "B", "C"],
+  ["D", "E", "F"],
+  ["G", "H", "I"]
+]
+
+board
+|> Enum.map(fn row -> Enum.find_index(board, fn each -> each == row end) end)
 ```
 
 ### Bonus: Winner
