@@ -139,6 +139,9 @@ defmodule AnagramSolver do
     ["abc", "acb", "bac", "bca", "cab", "cba"]
   """
   def solve(string) do
+    [h | t] =
+      string
+      |> String.graphemes()
   end
 end
 ```

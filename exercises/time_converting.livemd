@@ -90,6 +90,13 @@ defmodule TimeConverter do
 
   """
   def to_seconds(amount, unit) do
+    case unit do
+      :days -> amount * 86400
+      :hours -> amount * 3600
+      :minutes -> amount * 60
+      :seconds -> amount
+      _ -> {:error, "not a valid unit"}
+    end
   end
 
   @doc """
@@ -112,6 +119,13 @@ defmodule TimeConverter do
 
   """
   def from_seconds(amount, unit) do
+    case unit do
+      :days -> amount / 86400
+      :hours -> amount / 3600
+      :minutes -> amount / 60
+      :seconds -> amount / 1
+      _ -> {:error, "not a valid unit"}
+    end
   end
 end
 ```
