@@ -107,6 +107,14 @@ defmodule CaesarCypher do
     "ifmmp"
   """
   def encode(string) do
+    String.to_charlist(string)
+    |> Enum.map(fn each ->
+      case each do
+        ?z -> ?a
+        _ -> each + 1
+      end
+    end)
+    |> List.to_string()
   end
 
   @doc """
@@ -130,8 +138,40 @@ defmodule CaesarCypher do
     "ifmmp"
   """
   def encode(string, key) do
+    String.to_charlist(string)
+    |> Enum.map(fn each ->
+      overflow = each + key
+      overflow_by = overflow - ?z
+
+      if overflow_by > 0 do
+        ?a + overflow_by - 1
+      else
+        each + key
+      end
+    end)
+    |> List.to_string()
   end
 end
+```
+
+```elixir
+each = ?x
+key = 4
+result = ?a
+overflow = each + key
+overflow_by = overflow - ?z
+IO.inspect(binding)
+
+if overflow_by > 0 do
+  ?a + overflow_by - 1
+else
+  each + key
+end
+
+# overflow_by -> result
+# 1 -> ?a
+# 2 -> ?b
+# 3 -> ?c
 ```
 
 ## Commit Your Progress
