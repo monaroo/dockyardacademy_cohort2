@@ -331,7 +331,7 @@ end
 
 ```elixir
 defmodule CountBetween do
-  def count(same, same), do: same
+  def count(same, same), do: IO.puts(same)
 
   def count(start, finish) do
     cond do

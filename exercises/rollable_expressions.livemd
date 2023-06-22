@@ -158,12 +158,15 @@ defmodule Rollable do
     "Ice Shard: deal [12d4](https://www.google.com/search?q=roll+12d4) ice damage."
   """
   def replace(string) do
-    Regex.replace(~r//)
+    Regex.replace(~r/(\d+d\d+)/, string, "[\\1](https://www.google.com/search?q=roll+\\1)")
   end
 
   def roll(string) do
+    dice_number
   end
 end
+
+Rollable.replace("8d6")
 ```
 
 ## Commit Your Progress

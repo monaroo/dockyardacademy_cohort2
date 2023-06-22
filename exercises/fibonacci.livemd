@@ -101,7 +101,25 @@ defmodule Fibonacci do
     iex> Fibonacci.of(20)
     6765
   """
+
+  def of(0), do: 0
+  def of(1), do: 1
+
   def of(n) do
+    of(n - 1) + of(n - 2)
+  end
+
+  def other_of(0), do: 0
+  def other_of(1), do: 1
+
+  def other_of(n) do
+    other_of(n, [1, 0])
+  end
+
+  def other_of(0, [p, pp]), do: p + pp
+
+  def other_of(n, [p, pp]) do
+    other_of(n - 1, [pp + p, p])
   end
 end
 ```
