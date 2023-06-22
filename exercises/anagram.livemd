@@ -139,9 +139,16 @@ defmodule AnagramSolver do
     ["abc", "acb", "bac", "bca", "cab", "cba"]
   """
   def solve(string) do
-    [h | t] =
-      string
-      |> String.graphemes()
+    string
+    |> String.graphemes()
+    |> do_solve()
+    |> Enum.map(&Enum.join/1)
+  end
+
+  def do_solve([]), do: [[]]
+
+  def do_solve(list) do
+    for h <- list, t <- do_solve(list -- [h]), do: [h | t]
   end
 end
 ```
