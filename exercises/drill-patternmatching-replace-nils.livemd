@@ -72,6 +72,12 @@ defmodule Replace do
   [1, 2, 3, 4, "5"]
   """
   def nils(list1, list2) do
+    [list1, list2]
+    |> List.zip()
+    |> Enum.map(fn
+      {nil, item2} -> item2
+      {item1, _item2} -> item1
+    end)
   end
 end
 ```
