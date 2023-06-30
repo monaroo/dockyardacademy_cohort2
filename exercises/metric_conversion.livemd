@@ -83,9 +83,28 @@ end
 
 ```elixir
 defmodule Metric do
-  def convert(from, to) do
+  def convert({from_unit, value}, to) do
+    meters = to_meters(from_unit, value)
+
+    case to do
+      :millimeter -> meters * 1000
+      :centimeter -> meters * 100
+      :meter -> meters
+      :kilometer -> meters / 1000
+    end
+  end
+
+  def to_meters(from_unit, value) do
+    case from_unit do
+      :millimeter -> value / 1000
+      :centimeter -> value / 100
+      :meter -> value
+      :kilometer -> value * 1000
+    end
   end
 end
+
+Metric.convert({:centimeter, 100.0}, :meter)
 ```
 
 ## Commit Your Progress
