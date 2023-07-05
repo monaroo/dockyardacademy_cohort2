@@ -120,10 +120,45 @@ defmodule Math do
   ** (FunctionClauseError) no function clause matching in Math.add/2
   """
 
-  def add(value1, value2) do
+  def add(value1, value2) when is_number(value1) and is_number(value2) do
+    value1 + value2
   end
 
-  def subtract(value1, value2) do
+  def add(value1, value2) when is_list(value1) and is_list(value2) do
+    value1 ++ value2
+  end
+
+  def add(value1, value2) when is_binary(value1) and is_binary(value2) do
+    value1 <> value2
+  end
+
+  def subtract(value1, value2) when is_number(value1) and is_number(value2) do
+    value1 - value2
+  end
+
+  def subtract(value1, value2) when is_list(value1) and is_list(value2) do
+    value1 -- value2
+  end
+
+  # def subtract(value1, value2) when is_binary(value1) and is_binary(value2) do
+  #   String.replace(value1, value2, "")
+  # end
+
+  def subtract(value1, value2) when is_binary(value1) and is_binary(value2) do
+    value1_list = String.graphemes(value1)
+    value2_list = String.graphemes(value2)
+
+    do_subtract(value1_list, value2_list)
+  end
+
+  defp do_subtract(value1, []), do: Enum.join(value1)
+
+  defp do_subtract(list1, list2) do
+    letter_to_subtract = Enum.find(list1, &(&1 in list2))
+    new_list1 = list1 -- [letter_to_subtract]
+    new_list2 = list2 -- [letter_to_subtract]
+
+    do_subtract(new_list1, new_list2)
   end
 end
 ```
