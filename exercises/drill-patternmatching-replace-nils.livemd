@@ -79,6 +79,14 @@ defmodule Replace do
       {item1, _item2} -> item1
     end)
   end
+
+  # def recursive_nils([h1 | t1] = list1,[h2 | t2] = list2) do
+  #   case h1 do
+  #     [] -> []
+  #     nil -> [h2 | recursive_nils(t1, t2)]
+  #     _ -> [h1 | recursive_nils(t1, t2)]
+  #   end
+  # end
 end
 ```
 
