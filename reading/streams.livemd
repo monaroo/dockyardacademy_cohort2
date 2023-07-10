@@ -173,24 +173,24 @@ functionality from the [Stream](https://hexdocs.pm/elixir/Stream.html) module an
 ## Performance Comparison
 
 ```elixir
-Benchee.run(
-  %{
-    "enum" => fn ->
-      1..200
-      |> Enum.map(fn each -> each * 2 end)
-      |> Enum.filter(fn each -> each <= 10 end)
-      |> Enum.take(4)
-    end,
-    "stream" => fn ->
-      1..200
-      |> Stream.map(fn each -> each * 2 end)
-      |> Stream.filter(fn each -> each <= 10 end)
-      |> Stream.take(4)
-      |> Enum.to_list()
-    end
-  },
-  memory_time: 2
-)
+# Benchee.run(
+#   %{
+#     "enum" => fn ->
+#       1..200
+#       |> Enum.map(fn each -> each * 2 end)
+#       |> Enum.filter(fn each -> each <= 10 end)
+#       |> Enum.take(4)
+#     end,
+#     "stream" => fn ->
+#       1..200
+#       |> Stream.map(fn each -> each * 2 end)
+#       |> Stream.filter(fn each -> each <= 10 end)
+#       |> Stream.take(4)
+#       |> Enum.to_list()
+#     end
+#   },
+#   memory_time: 2
+# )
 ```
 
 While the exact results may vary, you should notice that the stream runs faster and consumes less memory.
@@ -230,7 +230,10 @@ In the Elixir cell below, try refactoring this code using the [Stream](https://h
 ```
 
 ```elixir
-
+1..100
+|> Stream.map(fn each -> div(each, 2) end)
+|> Stream.map(fn each -> each * 3 end)
+|> Enum.filter(fn each -> rem(each, 2) === 0 end)
 ```
 
 ## Stream Gotchas
@@ -430,7 +433,16 @@ end)
 </details>
 
 ```elixir
+Stream.iterate(20, fn starting_integer ->
+  case rem(starting_integer, 2) do
+    0 ->
+      div(starting_integer, 2)
 
+    _ ->
+      starting_integer * 3 + 1
+  end
+end)
+|> Enum.take_while(fn x -> x != 4 end)
 ```
 
 ### Stream.unfold/2
@@ -491,7 +503,11 @@ end)
 </details>
 
 ```elixir
-
+Stream.unfold(1, fn
+  accumulator ->
+    {accumulator ** 3, accumulator + 1}
+end)
+|> Enum.take(20)
 ```
 
 ## Commit Your Progress
