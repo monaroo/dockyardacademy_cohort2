@@ -139,8 +139,27 @@ defmodule Mailbox do
       "Hello!"
   """
   def loop(state \\ []) do
+    receive do
+      {:send, message} ->
+        IO.inspect(message, label: "in send")
+        loop([message | state])
+
+      {:read, pid} ->
+        case state do
+          [] ->
+            send(pid, :empty)
+            loop([])
+
+          [h | t] ->
+            send(pid, h)
+            loop(t)
+        end
+    end
   end
 end
+
+# pid = spawn(fn -> Mailbox.loop() end)
+# send(pid, {:send, "hello"})
 ```
 
 ## Commit Your Progress
