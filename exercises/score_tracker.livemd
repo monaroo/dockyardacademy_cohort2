@@ -103,23 +103,30 @@ defmodule ScoreTracker do
   # Client API
 
   def start_link(_opts) do
+    GenServer.start_link(__MODULE__, 0)
   end
 
-  def score(score_tracker_pid, amount) do
+  def add_points(score_tracker_pid, amount) do
+    GenServer.cast(score_tracker_pid, {:add_points, amount})
   end
 
   def current_score(score_tracker_pid) do
+    GenServer.call(score_tracker_pid, :current_score)
   end
 
   # Server API
 
   def init(_init_arg) do
+    {:ok, 0}
   end
 
-  def handle_cast({:add_points, amount}, state) do
+  def handle_cast({:add_points, amount}, score) do
+    new_score = score + amount
+    {:noreply, new_score}
   end
 
-  def handle_call(:current_score, _from, state) do
+  def handle_call(:current_score, _from, score) do
+    {:reply, score, score}
   end
 end
 ```
@@ -216,17 +223,47 @@ defmodule MultiplayerScoreTracker do
   30
   """
   use GenServer
-
+  # --------------------------------------------- CLIENT API
   def start_link(_opts) do
+    GenServer.start_link(__MODULE__, %{player1: 0, player2: 0})
   end
 
   def add_points(multiplayer_score_tracker_pid, player_name, amount) do
+    GenServer.cast(multiplayer_score_tracker_pid, {:add_points, player_name, amount})
   end
 
   def all_scores(multiplayer_score_tracker_pid) do
+    GenServer.call(multiplayer_score_tracker_pid, :all_scores)
   end
 
   def current_score(multiplayer_score_tracker_pid, player_name) do
+    GenServer.call(multiplayer_score_tracker_pid, {:current_score, player_name})
+  end
+
+  # ------------------------------------------- SERVER API 
+
+  @impl true
+  def init(_) do
+    {:ok, %{player1: 0, player2: 0}}
+  end
+
+  @impl true
+  def handle_cast({:add_points, player_name, amount}, state) do
+    {_old_value, new_state} =
+      Map.get_and_update!(state, player_name, fn original -> {original, original + amount} end)
+
+    {:noreply, new_state}
+  end
+
+  @impl true
+  def handle_call(:all_scores, _from, state) do
+    {:reply, state, state}
+  end
+
+  @impl true
+  def handle_call({:current_score, player_name}, _from, state) do
+    player_score = Map.get(state, player_name)
+    {:reply, player_score, state}
   end
 end
 ```
