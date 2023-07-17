@@ -72,7 +72,7 @@ Process.sleep(100)
 When a linked process crashes, it will also crashed the process that spawned it. Uncomment the code below, and you'll see it crashes the current Livebook process. Re-comment the code when finished.
 
 ```elixir
-# spawn_link(fn -> Raise "error" End)
+#  spawn_link(fn -> Raise "error" End)
 ```
 
 That means if we start a [GenServer](https://hexdocs.pm/elixir/GenServer.html) (or other process) **unsupervised** it will raise an error if it crashes.
@@ -94,7 +94,7 @@ end
 Uncomment and run the following code to see it crashes the current Livebook process, then re-comment the code.
 
 ```elixir
-# {:ok, pid} = GenServer.start_link(UnsupervisedWorker, [])
+#  {:ok, pid} = GenServer.start_link(UnsupervisedWorker, [])
 # Process.send(pid, :crash, [])
 ```
 
@@ -206,7 +206,9 @@ Process.exit(pid, :exit)
 Re-evaluate the diagram above and you should see a new `Worker` process started with a different pid. Repeat this process to kill each process under the supervisor and see them restarted.
 
 ```elixir
-
+pid = :c.pid(0, 299, 0)
+Process.exit(pid, :exit)
+Process.alive?(pid)
 ```
 
 ## Restart Strategies
@@ -446,7 +448,24 @@ So the timeline of crashes would be:
 Start **four** `Bomb` processes under a supervisor with different bomb times. Try each restart strategy `:one_for_one`, `one_for_all`, and `:rest_for_one`. Predict the crash timeline then evaluate your code. Did the result match your prediction?
 
 ```elixir
-
+children = [
+  %{
+    id: :bomb1,
+    start: {Bomb, :start_link, [[name: "Bomb 1", bomb_time: 2000]]}
+  },
+  %{
+    id: :bomb2,
+    start: {Bomb, :start_link, [[name: "Bomb 2", bomb_time: 1000]]}
+  },
+  %{
+    id: :bomb3,
+    start: {Bomb, :start_link, [[name: "Bomb 3", bomb_time: 5000]]}
+  },
+  %{
+    id: :bomb4,
+    start: {Bomb, :start_link, [[name: "Bomb 4", bomb_time: 7000]]}
+  }
+]
 ```
 
 ## Syntax Sugar

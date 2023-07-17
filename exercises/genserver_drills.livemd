@@ -92,6 +92,10 @@ GenServer.start_link(Zero, "init_arg", [name: :my_name])
 GenServer.start_link(Zero, "something", name: ZeroNamed)
 ```
 
+```elixir
+Process.whereis(ZeroNamed)
+```
+
 Create a `SimpleCounter` [GenServer](https://hexdocs.pm/elixir/GenServer.html) whose state starts as `0`. Implement a [GenServer.handle_call/3](https://hexdocs.pm/elixir/GenServer.html#handle_call/3) callback function which accepts the `:increment` message and increments the state by `1` and returns `:ok`.
 
 Use [GenServer.start_link/3](https://hexdocs.pm/elixir/GenServer.html#start_link/3) and [GenServer.call/3](https://hexdocs.pm/elixir/GenServer.html#call/3) to spawn a `SimpleCounter` process and send it an `:increment` message.
@@ -137,7 +141,7 @@ defmodule SimpleCounter do
   end
 end
 
-{:ok, counter} = GenServer.start_link(SimpleCounter, "init arg")
+{:ok, counter} = GenServer.start_link(SimpleCounter, [])
 GenServer.call(counter, :increment)
 :sys.get_state(counter)
 ```
@@ -169,12 +173,13 @@ defmodule InitialState do
   use GenServer
 
   @impl true
-  def init(init) do
-    {:ok, init}
+  def init(opts) do
+    state = Keyword.get(opts, :state, 0)
+    {:ok, state}
   end
 end
 
-{:ok, pid} = GenServer.start_link(InitialState, 34)
+{:ok, pid} = GenServer.start_link(InitialState, [])
 :sys.get_state(pid)
 ```
 
@@ -237,6 +242,10 @@ State.set(pid, "updated state")
 defmodule State do
   use GenServer
 
+  def start_link(init) do
+    GenServer.start_link(__MODULE__, init)
+  end
+
   @impl true
   def init(state) do
     {:ok, state}
@@ -258,10 +267,6 @@ defmodule State do
   @impl true
   def handle_cast({:set, value}, _state) do
     {:noreply, value}
-  end
-
-  def start_link(init) do
-    GenServer.start_link(__MODULE__, init)
   end
 end
 ```
@@ -295,14 +300,14 @@ Process.whereis(:my_configured_name)
 defmodule Named do
   use GenServer
 
+  def start_link(opts) do
+    name = Keyword.get(opts, :name, __MODULE__)
+    GenServer.start_link(__MODULE__, [], name: name)
+  end
+
   @impl true
   def init(state) do
     {:ok, state}
-  end
-
-  def start_link(keyword) do
-    name = Keyword.get(keyword, :name, __MODULE__)
-    GenServer.start_link(__MODULE__, [], name: name)
   end
 end
 
@@ -370,9 +375,9 @@ defmodule NamedState do
     {:ok, state}
   end
 
-  def start_link(init) do
-    name = Keyword.get(init, :name, __MODULE__)
-    GenServer.start_link(__MODULE__, init[:init_state], name: name)
+  def start_link(opts) do
+    name = Keyword.get(opts, :name, __MODULE__)
+    GenServer.start_link(__MODULE__, opts[:init_state], name: name)
   end
 end
 
