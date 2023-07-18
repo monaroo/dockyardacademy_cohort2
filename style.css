@@ -1,0 +1,73 @@
+button, div {
+        font-family: "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      button {
+        border-radius: 500px;
+        font-size: 28px;        
+        background-color: #fff;
+        border-color: orange;
+        border-style: solid;
+        border-width: 3px;
+        /* border: 1px solid orange; */
+        /* padding-top: 20px; */
+        /* padding-bottom: 20px; */
+        font-weight: 300;
+        padding: 12px 10px 8px 10px;
+        margin-bottom: 30px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: orange;
+      }
+      .rainbow {
+        border-width: 10px;
+        border-style: solid;
+        text-align: center;
+      }
+      .red {
+        border-color: #f34449;
+      }
+      .orange {
+        border-color: #ff712a;
+      }
+      .yellow {
+        border-color: #ebb32c;
+      }
+      .green {
+        border-color: #00c462;
+      }
+      .blue {
+        border-color: #3580f3;
+      }
+      .purple {
+        border-color: #aa54f3;
+      }
+      .card {
+        margin-top: 50px;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 0 15px 0 15px;
+        width: 300px;
+        overflow: hidden;
+      }
+      .card img {
+        display: block;
+        width: 100%;
+      }
+      .content {
+        margin: 0 15px 5px 15px;
+        padding: 5px;
+        padding-bottom: 0;
+        border-bottom: 5px solid black;
+      }
+      .content h1 {
+        margin-top: 0;
+        font-weight: 300;
+      }
+      .content h2 {
+        margin: 5px 0;
+      }
+      .content h2, .content p {
+        font-weight: 200;
+        font-size: 24px;
+      }
