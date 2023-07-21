@@ -280,6 +280,10 @@ request = Finch.build(:get, "https://www.example.com")
 Then we provide this struct to the [Finch.request/3](https://hexdocs.pm/finch/0.16.0/Finch.html#request/3) function using the name of the Finch process to send the request.
 
 ```elixir
+
+```
+
+```elixir
 Finch.request!(request, MyApp.Finch)
 ```
 
@@ -472,7 +476,18 @@ IO.puts(message)
 </details>
 
 ```elixir
+url = "https://api.openai.com/v1/chat/completions"
 
+method = :post
+
+headers = [{"Content-Type", "application/json"},
+  {"Authorization:", "Bearer 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"}]
+
+  body =
+  Jason.encode!(%{
+     model: "gpt-3.5-turbo",
+    messages: [{role: "user", content: "Hello!"}]
+  })
 ```
 
 ## Commit Your Progress
